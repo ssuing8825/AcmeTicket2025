@@ -31,14 +31,23 @@ participant MarketplaceCommunication
 'Events are those words that start with the letter I. For example ITicketGroupQuantityChanged
 
 User -[#DarkBlue]> ITOps.API: PurchaseTickets
-activate Inventory #red
+activate Inventory #grey
 ITOps.API -[#DarkBlue]> Inventory: TicketAllocationRequest
 Inventory -[#DarkGreen]>  ITOps.API: Return
-activate OrderManagement #red
+activate OrderManagement #grey
 Inventory -[#Orange]>  OrderManagement: ITicketGroupQuantityChanged
 Inventory -[#Orange]>  OrderManagement: ITicketsAllocatedToOrder
 deactivate Inventory
+'the following represents an event. It has dashed orange lines
 OrderManagement --[#Orange]> ITOps.Integration: ITicketGroupPriceAndQuantityChanged
+deactivate OrderManagement 
+ITOps.API -[#DarkBlue]> Inventory: OrderManagement
+activate OrderManagement #grey
+OrderManagement --[#Orange]> MarketplaceCommunication: INeedAdditionalDataToCompletePurchase
+OrderManagement -[#Orange]> OrderManagement: Validate
+OrderManagement --[#Orange]> FraudProtection: IPurchaseOrderPlaced
+OrderManagement --[#Orange]> Fullfillment: IPurchaseOrderPlaced
+OrderManagement --[#Orange]> ITOps.Integration: IPurchaseOrderPlaced
 deactivate OrderManagement 
 
 ' activate Frontend #red
