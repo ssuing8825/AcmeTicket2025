@@ -7,8 +7,10 @@
 
 ```plantuml
 @startuml
-Title This is a domain level sequence diagram
-Legend This is the legend
+Title Allocate and Purchase no TicketGroupId on request
+
+
+
 Header this is the header
 Footer This is the footer
 skinparam backgroundColor #EEEBDC
@@ -20,6 +22,8 @@ skinparam ArrowThickness 4
 
 autonumber
 actor User 
+'Participants in this diagram represent domains
+
 participant ITOps.API
 participant OrderManagement 
 participant Inventory
@@ -33,6 +37,7 @@ participant MarketplaceCommunication
 User -[#DarkBlue]> ITOps.API: PurchaseTickets
 activate Inventory #grey
 ITOps.API -[#DarkBlue]> Inventory: TicketAllocationRequest
+note left: this is a first note
 Inventory -[#DarkGreen]>  ITOps.API: Return
 activate OrderManagement #grey
 Inventory -[#Orange]>  OrderManagement: ITicketGroupQuantityChanged
@@ -49,6 +54,13 @@ OrderManagement --[#Orange]> FraudProtection: IPurchaseOrderPlaced
 OrderManagement --[#Orange]> Fullfillment: IPurchaseOrderPlaced
 OrderManagement --[#Orange]> ITOps.Integration: IPurchaseOrderPlaced
 deactivate OrderManagement 
+
+legend right
+|Color| Type |
+|<#FF0000>| Type A class|
+|<#00FF00>| Type B class|
+|<#0000FF>| Type C class|
+endlegend
 
 ' activate Frontend #red
 '     Frontend -> Backend: API Call
